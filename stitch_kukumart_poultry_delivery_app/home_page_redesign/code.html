@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "error": "#ba1a1a",
+                  "primary": "#154212",
+                  "surface-container": "#efeeea",
+                  "secondary-fixed": "#dde5db",
+                  "primary-fixed-dim": "#a1d494",
+                  "inverse-surface": "#2f312e",
+                  "surface-container-high": "#e9e8e4",
+                  "on-surface-variant": "#42493e",
+                  "on-error-container": "#93000a",
+                  "surface-container-highest": "#e3e2df",
+                  "tertiary": "#52320b",
+                  "background": "#faf9f5",
+                  "surface-dim": "#dbdad6",
+                  "on-background": "#1b1c1a",
+                  "on-secondary": "#ffffff",
+                  "surface-container-lowest": "#ffffff",
+                  "on-secondary-fixed": "#161d17",
+                  "tertiary-container": "#6d4820",
+                  "on-tertiary-fixed": "#2c1600",
+                  "inverse-primary": "#a1d494",
+                  "error-container": "#ffdad6",
+                  "on-tertiary": "#ffffff",
+                  "on-tertiary-fixed-variant": "#623f18",
+                  "on-primary-fixed-variant": "#23501e",
+                  "on-secondary-container": "#5e665f",
+                  "on-primary-fixed": "#002201",
+                  "tertiary-fixed-dim": "#f0bd8b",
+                  "outline": "#72796e",
+                  "on-surface": "#1b1c1a",
+                  "secondary": "#586059",
+                  "outline-variant": "#c2c9bb",
+                  "secondary-fixed-dim": "#c1c9bf",
+                  "on-tertiary-container": "#ecb987",
+                  "surface-variant": "#e3e2df",
+                  "inverse-on-surface": "#f2f1ed",
+                  "on-secondary-fixed-variant": "#414942",
+                  "secondary-container": "#dde5db",
+                  "on-primary-container": "#9dd090",
+                  "primary-container": "#2d5a27",
+                  "surface": "#faf9f5",
+                  "surface-bright": "#faf9f5",
+                  "tertiary-fixed": "#ffdcbd",
+                  "on-error": "#ffffff",
+                  "surface-container-low": "#f4f4f0",
+                  "on-primary": "#ffffff",
+                  "primary-fixed": "#bcf0ae",
+                  "surface-tint": "#3b6934"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "container-padding-mobile": "1.5rem",
+                  "container-padding-desktop": "4rem",
+                  "gap-xs": "0.5rem",
+                  "gap-lg": "2.5rem",
+                  "max-width": "1280px",
+                  "gap-md": "1.5rem",
+                  "unit": "4px"
+          },
+          "fontFamily": {
+                  "body-lg": ["Nunito Sans"],
+                  "headline-lg": ["Nunito Sans"],
+                  "headline-lg-mobile": ["Nunito Sans"],
+                  "label-md": ["Nunito Sans"],
+                  "display-lg": ["Nunito Sans"],
+                  "headline-md": ["Nunito Sans"],
+                  "body-md": ["Nunito Sans"]
+          },
+          "fontSize": {
+                  "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                  "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .organic-shape {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- Top AppBar (Generated from JSON) -->
+<header class="w-full top-0 sticky z-50 bg-background dark:bg-background flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop py-4 transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">location_on</span>
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">KukuMart</span>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container hover:opacity-80 transition-opacity cursor-pointer">
+<img alt="User Profile" data-alt="A clean and professional studio portrait of a friendly young adult male named Alex, smiling warmly. The lighting is soft and high-key, reflecting a modern and approachable brand aesthetic. The background is a solid, warm neutral color that complements the Harvest and Hearth design system palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4aWaDKE33-qbZYLQgklz0Pw81AVtgqfTcUjo0nXIH73j4YIKnyO1Egp9C8lyUi3sgs2oscteX-IerngDGnt-MkCzMxtSWmDCQwrrGHqdOe1Ky_mC-jcjHpwrAwAZ5mg_wr4TQU0dw9DcqJkeBBWE2wiiJERbxeFj9rowK9WIyHnNDPxsKRSopvICYC9vPYIu2BoSaZxKSZ6jQrj-VJ2keiJQnzrKBXkCEuwvv0nicWgUPOK_FA6NgBHFLrtaZCzT55gtBm0E1p6c"/>
+</div>
+</header>
+<main class="max-w-max-width mx-auto space-y-gap-lg">
+<!-- Greeting & Search -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop pt-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-6">Good morning, Alex 👋</h1>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-14 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-body-md font-body-md transition-all" placeholder="Search fresh produce..." type="text"/>
+<button class="absolute inset-y-2 right-2 px-3 bg-primary text-on-primary rounded-lg flex items-center justify-center hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</section>
+<!-- Promotion Banners -->
+<section class="overflow-hidden">
+<div class="flex gap-md px-container-padding-mobile md:px-container-padding-desktop overflow-x-auto hide-scrollbar snap-x">
+<!-- Banner 1 -->
+<div class="flex-shrink-0 w-[85vw] md:w-[400px] bg-secondary-container rounded-xl p-6 relative overflow-hidden snap-center group">
+<div class="absolute -right-8 -bottom-8 w-40 h-40 bg-primary/10 organic-shape group-hover:scale-110 transition-transform duration-700"></div>
+<div class="relative z-10 space-y-2">
+<span class="inline-block px-3 py-1 bg-on-secondary rounded-full text-[12px] font-bold text-primary uppercase tracking-wider">Flash Sale</span>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight">20% Off Organic<br/>Free-Range Eggs</h3>
+<button class="mt-4 px-6 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md hover:shadow-lg transition-all">Shop Now</button>
+</div>
+<img class="absolute right-0 bottom-0 w-32 h-32 object-contain opacity-80" data-alt="A close-up, artistic shot of several organic, light-brown chicken eggs resting in a minimalist ceramic bowl. The scene is bathed in soft, natural morning light, creating gentle shadows and highlights. The aesthetic is clean, minimalist, and high-end, aligned with a premium farm-to-table organic brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3oC0bJ0N0cRPBS-KB4cM0tKAx5oD9WT6GtI3MWSJcNnw75skwhRin64-pQco0eBnIUBl23Rcblvu4Lx2cfBzEqQ14SfSFzWWGSArYQlWH-xSv04_Pu4GdfE2IQ9zdeuZH_lpx_DLqQpIpW7Jxh2TstX3nGDlZIUat2sWWmtE7660lDJY3nx4b4WtmRcDYHZVD3WMnpgK1wJ0Wz76gsX9IoWWMPjiQPbrTPkEJkZ_zVRrpIoKr0aU52ASTBDYpn_FzatL_iFp5lAM"/>
+</div>
+<!-- Banner 2 -->
+<div class="flex-shrink-0 w-[85vw] md:w-[400px] bg-tertiary-fixed rounded-xl p-6 relative overflow-hidden snap-center group">
+<div class="absolute -left-10 -top-10 w-48 h-48 bg-tertiary-container/10 organic-shape group-hover:rotate-12 transition-transform duration-1000"></div>
+<div class="relative z-10 space-y-2">
+<span class="inline-block px-3 py-1 bg-white/50 rounded-full text-[12px] font-bold text-tertiary uppercase tracking-wider">New Arrival</span>
+<h3 class="font-headline-md text-headline-md text-tertiary leading-tight">Harvest Fresh<br/>Duck Specialties</h3>
+<button class="mt-4 px-6 py-2 bg-tertiary text-on-tertiary rounded-full font-label-md text-label-md hover:shadow-lg transition-all">Explore</button>
+</div>
+<img class="absolute right-4 bottom-4 w-32 h-32 object-contain rounded-full border-4 border-white/20" data-alt="A beautifully prepared, gourmet duck dish presented on a rustic yet modern ceramic plate. The lighting is moody and warm, highlighting the rich textures and organic colors of the food. The background is a soft-focus wooden kitchen countertop, emphasizing a high-quality, farm-fresh culinary experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhgXO5_x63BNFWQXyV9X4kS827si6T2ZaNeNnS0_PmW2ZvO2oZptstBshPi6hzIWpMcUYI9YbcNOtuUVDDfOk7uHO_x14Ac7fZ0-bM4XqSY_pr55NKCfhp0ns6d2yGZb2L7egyqAgr_GrsTrWLIix7yi-3CZJCx9RhOZXxE5aJJs2k8HvrfMEa2mF1VafmWTUZddEz9BKRacHNGj2OJ6qcfuVDeG4_lQj-K6_fS31QsLn9MGbQHJW3IYJmI0c39g8tcyd9ig09Nts"/>
+</div>
+</div>
+</section>
+<!-- Categories -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-on-background">Categories</h2>
+<button class="text-primary font-label-md text-label-md hover:underline">See All</button>
+</div>
+<div class="flex gap-md overflow-x-auto hide-scrollbar">
+<button class="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm hover:scale-105 transition-all">
+<span class="material-symbols-outlined text-[20px]">egg</span> Eggs
+        </button>
+<button class="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined text-[20px]">restaurant</span> Chicken
+        </button>
+<button class="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined text-[20px]">bakery_dining</span> Duck
+        </button>
+<button class="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined text-[20px]">potted_plant</span> Organic
+        </button>
+</div>
+</section>
+<!-- Recommended Farms -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-on-background">Recommended Farms</h2>
+</div>
+<div class="flex gap-md overflow-x-auto hide-scrollbar snap-x">
+<!-- Farm Card 1 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-outline-variant/10 snap-start hover:shadow-md transition-shadow">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="An expansive view of a lush green sustainable farm under a clear blue sky during the golden hour. The soft, warm sunlight illuminates the rolling hills and neat rows of crops, creating a serene and idyllic atmosphere. The photography is professional and airy, emphasizing environmental purity and high-quality agriculture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWBZpTJt_FaoXBQ25FdBCg-viO7R6pElYOodjsGfHmzHULmkhlEE5RrnCADuZ88d0yumRVVIGhssVqUyBmsBA6SO_8scyt3JgaWlZ_AugR8hG1RrKsxmIkNhmguHrAHTalc96nGy4H--5gaM8RhBczo5rJ3JQcZtYyf2CaMR71F43oNrRuu7p3lhSMYAEROp90jXA7eO_6oq8pymjvGixz9R7MOFMGoRoUsablqwQACj1O-f4ArmG5Q__Vgj84jF1R1yB-rb0QcL4"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-label-md text-on-surface">4.8</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<h4 class="font-headline-md text-[18px] text-on-background">Green Valley Acres</h4>
+<div class="flex items-center gap-1 text-on-surface-variant text-[13px]">
+<span class="material-symbols-outlined text-[16px]">distance</span>
+<span>2.4 km away</span>
+</div>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[10px] font-bold uppercase">Certified Organic</span>
+</div>
+</div>
+</div>
+<!-- Farm Card 2 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-outline-variant/10 snap-start hover:shadow-md transition-shadow">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A peaceful farm scene featuring a clean, modern barn structure surrounded by well-maintained pastures. The lighting is soft and diffused, highlighting the fresh, morning dew on the grass. The composition is balanced and elegant, conveying a sense of hospitality and premium farm-fresh quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKyphI0y6QvEBvKvfqmR7wAfZn0TaOffZMFn7U3teT_loP7fTOlfeV9V5bkm0yRir4QQaygtJdzFlU8sd5ywTPF_eyh_e7Jy70YBrYhAo3mGgRSdQqqKdjgnrr5k1FprC95g57RpweDciFdfrAlhPZTeQZqQGXnRiQkbKhZg1vhzf1zQGtxOXL-opTkKn3Fx_7N2kou6OWhKuLbbrndPNIdge4MDpoRlDPnJlaBrhq3bSMIcImvHNPkTKOSh8wMzLEQLp7MsWurWA"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-label-md text-on-surface">4.9</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<h4 class="font-headline-md text-[18px] text-on-background">Sunlit Poultry Farm</h4>
+<div class="flex items-center gap-1 text-on-surface-variant text-[13px]">
+<span class="material-symbols-outlined text-[16px]">distance</span>
+<span>4.1 km away</span>
+</div>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-bold uppercase">Pasture Raised</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Fresh Today -->
+<section class="px-container-padding-mobile md:px-container-padding-desktop">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-on-background">Fresh Today</h2>
+<button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md">
+<!-- Product 1 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col hover:shadow-md transition-all group cursor-pointer">
+<div class="relative aspect-square mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="High-quality studio photograph of a dozen farm-fresh eggs in a clean, recycled paper carton. The lighting is soft and even, highlighting the varied natural colors of the eggshells from white to pale blue. The setting is clean and minimalist, emphasizing the organic and wholesome nature of the product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApUQnbAxyrAVohPJAqIS_biwYrmDmpzZFma8RxXMmEsEOozVaC2Rba-xG45MuiQjb2mFhvVhcuu4QBu_wqUMApxjUUVih2R1elDsrktBKztjNDhlYfCZeY91OxShvjWJYw2H9A36vERQ6RPKi0U1k09PV6iuVdRa7gMJdFrDzXo2urQAmrZVFb5qA1V9OXTu3XcCWpcTvD4b82cnEraeB6qKk_wLsykW-TantbMEPAyY831otqFAbcdN0WM_y1NmAFSwQY0tEgMMA"/>
+<button class="absolute bottom-2 right-2 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="flex flex-col flex-grow">
+<span class="text-on-surface-variant text-[12px] font-medium uppercase tracking-tight">6 Eggs</span>
+<h5 class="font-headline-md text-[16px] text-on-background line-clamp-1 mb-1">Brown Free-Range Eggs</h5>
+<div class="mt-auto flex items-baseline gap-1">
+<span class="text-primary font-bold text-[18px]">$4.50</span>
+<span class="text-on-surface-variant text-[12px]">/pack</span>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col hover:shadow-md transition-all group cursor-pointer">
+<div class="relative aspect-square mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="A premium selection of fresh organic chicken thighs presented on a minimalist wooden board. The scene is bright and airy, with soft shadows and a clean aesthetic. The focus is on the freshness and high quality of the meat, appealing to health-conscious and gourmet home cooks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLVDrS51ikXN832D1s_W3XXswzdYvYHqcwgabbG6_59kQA3OPzg9h3kK9iblTpV2ducPH8GN9z9ahRfaZRBmbCqPyvOxgaNhgWUqrN1M4hQaGVwVhz-Fw_pW0PPSa76RH7yacMa0GsLgP9RwF3Vl2eZMQwFhMOVlc8EPabcRfmxYs4NCcpFMyLzfbOHNAvWCKYkHindJ6SEBnxjdMgc89oo9-KskVtE0g9nAuuvW92yj5yCkAUV9fmm8glk2OsP3JIdaopvBXkuzI"/>
+<button class="absolute bottom-2 right-2 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="flex flex-col flex-grow">
+<span class="text-on-surface-variant text-[12px] font-medium uppercase tracking-tight">500g</span>
+<h5 class="font-headline-md text-[16px] text-on-background line-clamp-1 mb-1">Organic Chicken Thighs</h5>
+<div class="mt-auto flex items-baseline gap-1">
+<span class="text-primary font-bold text-[18px]">$12.99</span>
+<span class="text-on-surface-variant text-[12px]">/kg</span>
+</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col hover:shadow-md transition-all group cursor-pointer">
+<div class="relative aspect-square mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of premium, pasture-raised duck eggs with their distinctive large size and smooth, cream-colored shells. They are artfully arranged on a bed of natural straw in a clean, minimalist setting. The soft lighting emphasizes the luxurious and specialty nature of the product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0oZPVobafJhXj7TRP3Ah3dnmwJ3ZMx38HUleEAm_l5KLPOGkkhdXhGKGKiEMs0ZNS5OkYLMZ_aOSRrOmI_gAiSj0NU33rIOHyNg6EGlTauZQ7d9lsnQL8rkp4644M1yfEEvxIDjJ4JOHkXF6jShz8iF-aufuKi_jDDS7x6UirTeZMtMKEl3jrVBH0ReMnVyjjilWyre3u1ZCUb25kgHhzsVu2CkRpDLhcwF9cQ7DtAk2D1dHe8pQ9HKo11P4VSg7_a_2nStbVUvg"/>
+<button class="absolute bottom-2 right-2 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="flex flex-col flex-grow">
+<span class="text-on-surface-variant text-[12px] font-medium uppercase tracking-tight">4 Eggs</span>
+<h5 class="font-headline-md text-[16px] text-on-background line-clamp-1 mb-1">Pasture-Raised Duck Eggs</h5>
+<div class="mt-auto flex items-baseline gap-1">
+<span class="text-primary font-bold text-[18px]">$6.75</span>
+<span class="text-on-surface-variant text-[12px]">/pack</span>
+</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col hover:shadow-md transition-all group cursor-pointer">
+<div class="relative aspect-square mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2">
+<img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="A whole fresh organic chicken ready for roasting, presented in a clean, modern kitchen environment. The chicken is plump and perfectly prepared, highlighted by bright, natural lighting. The background is a soft-focus white marble countertop, reinforcing a clean, high-quality culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChmSVqynm0t7Xm-beGRdPeAWjn-EynhPJHQ7xdyY8XLxt1abgFrSTG_xRmrQ3ShEfW8JzMiBefvYSvp2s5D7Cnm5rftncTrbunHnu3jTEL5i1E2epV-N11np_cwECV99lwYrVUTlItv9OntUGDwNH5Adf-u9KtjAq_XjjNkVnOHCioCDHpxYPYntqGrFq9pLP124OyxeHK4G2q9ZDEnSJVR6cyTxkT99fow9PLZdNhbRKwg-CXwKG2e1sc27aDmPeqv2DNHYfiTnc"/>
+<button class="absolute bottom-2 right-2 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="flex flex-col flex-grow">
+<span class="text-on-surface-variant text-[12px] font-medium uppercase tracking-tight">1.2 kg</span>
+<h5 class="font-headline-md text-[16px] text-on-background line-clamp-1 mb-1">Whole Organic Chicken</h5>
+<div class="mt-auto flex items-baseline gap-1">
+<span class="text-primary font-bold text-[18px]">$18.50</span>
+<span class="text-on-surface-variant text-[12px]">/unit</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Generated from JSON) -->
+<nav class="fixed bottom-0 w-full flex justify-around items-center py-3 px-2 bg-surface-container-lowest z-50 rounded-t-xl shadow-[0_-4px_24px_rgba(0,0,0,0.02)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-primary dark:text-on-secondary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<!-- Farms -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-full active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">agriculture</span>
+<span class="font-label-md text-label-md">Farms</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-full active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<!-- Cart -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-full active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md">Cart</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant rounded-full active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+    // Micro-interactions and subtle scroll effects
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+          header.classList.add('shadow-sm', 'bg-opacity-95', 'backdrop-blur-md');
+        } else {
+          header.classList.remove('shadow-sm', 'bg-opacity-95', 'backdrop-blur-md');
+        }
+      });
+
+      // Product card hover haptics (visual)
+      const cards = document.querySelectorAll('.group');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          // Additional JS interactions can be added here
+        });
+      });
+    });
+  </script>
+</body></html>
