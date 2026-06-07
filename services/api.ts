@@ -2,9 +2,13 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import Constants from 'expo-constants';
 
+const PROD_API_URL = 'https://kuku-backend-b8x4.onrender.com/api';
+
 const hostUri = Constants.expoConfig?.hostUri;
 const host = hostUri ? hostUri.split(':')[0] : 'localhost';
-const API_BASE = `http://${host}:3000/api`;
+const DEV_API_URL = `http://${host}:3000/api`;
+
+const API_BASE = __DEV__ ? DEV_API_URL : PROD_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE,
