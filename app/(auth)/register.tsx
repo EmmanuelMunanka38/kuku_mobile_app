@@ -68,14 +68,14 @@ export default function Register() {
             label={t.auth.name}
             value={name}
             onChangeText={setName}
-            placeholder="e.g. John Doe"
+            placeholder="e.g. Aisha Mohamed"
             icon={<User size={18} color={colors.outline} strokeWidth={2} />}
           />
           <Input
             label={t.auth.email}
             value={email}
             onChangeText={setEmail}
-            placeholder="john@example.com"
+            placeholder="name@email.com"
             keyboardType="email-address"
             autoCapitalize="none"
             icon={<Mail size={18} color={colors.outline} strokeWidth={2} />}

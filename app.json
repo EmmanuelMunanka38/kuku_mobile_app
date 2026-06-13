@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "KukuMart",
-    "slug": "kukumart",
+    "name": "AGRINOVA",
+    "slug": "agrinova",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-      "backgroundColor": "#BF7F06",
+      "backgroundColor": "#2E7D32",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
       "package": "com.kukumart.app",

@@ -61,10 +61,10 @@ export default function HomeScreen() {
       <View style={[styles.header, { borderBottomColor: colors.surfaceContainerHigh }]}>
         <View>
           <Text style={[styles.greeting, { color: colors.onSurfaceVariant }]}>{t.home.subtitle}</Text>
-          <Text style={[styles.name, { color: colors.onSurface }]}>{user?.name || 'User'}</Text>
+          <Text style={[styles.name, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
         </View>
         <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'U')[0].toUpperCase()}</Text>
+          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
         </View>
       </View>
 

@@ -154,10 +154,10 @@ export default function FarmDetailScreen() {
         <Card variant="filled" style={styles.reviewCard}>
           <View style={styles.reviewHeader}>
             <View style={[styles.reviewAvatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>JW</Text>
+              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>GK</Text>
             </View>
             <View>
-              <Text style={[styles.reviewerName, { color: colors.onSurface }]}>Jane Wanjiku</Text>
+              <Text style={[styles.reviewerName, { color: colors.onSurface }]}>Grace Kemunto</Text>
               <View style={styles.reviewStars}>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} size={12} color={colors.star} fill={colors.star} strokeWidth={1.5} />
@@ -170,10 +170,10 @@ export default function FarmDetailScreen() {
         <Card variant="filled" style={styles.reviewCard}>
           <View style={styles.reviewHeader}>
             <View style={[styles.reviewAvatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>DO</Text>
+              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>EC</Text>
             </View>
             <View>
-              <Text style={[styles.reviewerName, { color: colors.onSurface }]}>David Otieno</Text>
+              <Text style={[styles.reviewerName, { color: colors.onSurface }]}>Emmanuel Chacha</Text>
               <View style={styles.reviewStars}>
                 {Array.from({ length: 4 }).map((_, i) => (
                   <Star key={i} size={12} color={colors.star} fill={colors.star} strokeWidth={1.5} />

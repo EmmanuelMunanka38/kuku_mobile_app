@@ -77,7 +77,7 @@ export default function FarmerDashboard() {
       <View style={[styles.header, { borderBottomColor: colors.surfaceContainerHigh }]}>
         <View>
           <Text style={[styles.greeting, { color: colors.onSurfaceVariant }]}>{t.farmer.welcomeBack}</Text>
-          <Text style={[styles.name, { color: colors.onSurface }]}>{user?.name || 'Farmer'}</Text>
+          <Text style={[styles.name, { color: colors.onSurface }]}>{user?.name || 'Mkulima'}</Text>
         </View>
         <Image source={require('../../assets/logo.png')} style={styles.logo} resizeMode="contain" />
       </View>

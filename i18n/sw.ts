@@ -1,7 +1,7 @@
 import type { Translations } from './en';
 
 export const sw: Translations = {
-  app: { name: 'KukuMart' },
+  app: { name: 'AGRINOVA' },
 
   common: {
     loading: 'Inapakia...',
@@ -35,9 +35,9 @@ export const sw: Translations = {
     loginFailed: 'Ingia imeshindwa',
     registerFailed: 'Usajili umeshindwa',
     welcomeBack: 'Karibu Tena',
-    loginSubtitle: 'Ingia kwenye akaunti yako ya KukuMart',
+    loginSubtitle: 'Ingia kwenye akaunti yako ya AGRINOVA',
     createAccount: 'Unda Akaunti',
-    registerSubtitle: 'Unda akaunti yako ya KukuMart',
+    registerSubtitle: 'Unda akaunti yako ya AGRINOVA',
     noAccount: 'Huna akaunti?',
     haveAccount: 'Tayari una akaunti?',
     joinAs: 'Jiunge kama',
@@ -46,7 +46,7 @@ export const sw: Translations = {
   },
 
   onboarding: {
-    slide1Title: 'Karibu KukuMart',
+    slide1Title: 'Karibu AGRINOVA',
     slide1Subtitle: 'Mazao safi ya kuku na shamba yanayotolewa moja kwa moja kutoka kwa wakulima wa karibu hadi mlangoni mwako.',
     slide2Title: 'Wasaidie Wakulima',
     slide2Subtitle: 'Ungana moja kwa moja na wakulima wa karibu yako. Jua chakula chako kinatoka wapi.',
@@ -55,7 +55,7 @@ export const sw: Translations = {
   },
 
   home: {
-    title: 'KukuMart',
+    title: 'AGRINOVA',
     subtitle: 'Mbichi kutoka shamba hadi mezani',
     searchPlaceholder: 'Tafuta bidhaa...',
     promoTitle: 'Mazao Mbichi ya Shamba',
@@ -154,8 +154,27 @@ export const sw: Translations = {
     manageProducts: 'Dhibiti Bidhaa',
     manageOrders: 'Dhibiti Oda',
     language: 'Lugha',
-    aboutApp: 'Kuhusu KukuMart',
+    aboutApp: 'Kuhusu AGRINOVA',
     version: 'Toleo',
+  },
+
+  notificationsScreen: {
+    title: 'Arifa',
+    empty: 'Hakuna arifa bado',
+    emptySubtitle: 'Tutakujulisha kitu kinapotokea',
+    markAllRead: 'Weka Zote Kama Zimesomwa',
+    orderUpdate: 'Sasisho la Oda',
+    orderUpdateDesc: 'Oda yako #{id} imekuwa {status}',
+    promo: 'Ofa Maalum',
+    promoDesc: 'Pata punguzo la {discount}% kwa {product} leo!',
+    system: 'Sasisho la Mfumo',
+    systemDesc: '{message}',
+    now: 'Sasa hivi',
+    minutesAgo: '{minutes}d zilizopita',
+    hoursAgo: '{hours}s zilizopita',
+    daysAgo: '{days}s zilizopita',
+    cleared: 'Arifa zimefutwa',
+    allRead: 'Arifa zote zimewekwa kama zimesomwa',
   },
 
   farmer: {

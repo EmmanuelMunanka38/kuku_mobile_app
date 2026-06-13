@@ -1,5 +1,5 @@
 export const en = {
-  app: { name: 'KukuMart' },
+  app: { name: 'AGRINOVA' },
 
   common: {
     loading: 'Loading...',
@@ -33,9 +33,9 @@ export const en = {
     loginFailed: 'Login failed',
     registerFailed: 'Registration failed',
     welcomeBack: 'Welcome Back',
-    loginSubtitle: 'Log in to your KukuMart account',
+    loginSubtitle: 'Log in to your AGRINOVA account',
     createAccount: 'Create Account',
-    registerSubtitle: 'Create your KukuMart account',
+    registerSubtitle: 'Create your AGRINOVA account',
     noAccount: "Don't have an account?",
     haveAccount: 'Already have an account?',
     joinAs: 'Join as',
@@ -44,7 +44,7 @@ export const en = {
   },
 
   onboarding: {
-    slide1Title: 'Welcome to KukuMart',
+    slide1Title: 'Welcome to AGRINOVA',
     slide1Subtitle: 'Fresh poultry and farm produce delivered straight from local farmers to your doorstep.',
     slide2Title: 'Support Local Farmers',
     slide2Subtitle: 'Connect directly with farmers in your area. Know where your food comes from.',
@@ -53,7 +53,7 @@ export const en = {
   },
 
   home: {
-    title: 'KukuMart',
+    title: 'AGRINOVA',
     subtitle: 'Fresh from farm to table',
     searchPlaceholder: 'Search products...',
     promoTitle: 'Fresh Farm Products',
@@ -152,8 +152,27 @@ export const en = {
     manageProducts: 'Manage Products',
     manageOrders: 'Manage Orders',
     language: 'Language',
-    aboutApp: 'About KukuMart',
+    aboutApp: 'About AGRINOVA',
     version: 'Version',
+  },
+
+  notificationsScreen: {
+    title: 'Notifications',
+    empty: 'No notifications yet',
+    emptySubtitle: 'We\'ll notify you when something arrives',
+    markAllRead: 'Mark All Read',
+    orderUpdate: 'Order Update',
+    orderUpdateDesc: 'Your order #{id} has been {status}',
+    promo: 'Special Offer',
+    promoDesc: 'Get {discount}% off on {product} today!',
+    system: 'System Update',
+    systemDesc: '{message}',
+    now: 'Just now',
+    minutesAgo: '{minutes}m ago',
+    hoursAgo: '{hours}h ago',
+    daysAgo: '{days}d ago',
+    cleared: 'Notifications cleared',
+    allRead: 'All notifications marked as read',
   },
 
   farmer: {

@@ -49,10 +49,10 @@ export default function SettingsScreen() {
         <Card variant="elevated" padding="none">
           <View style={[styles.profileRow, { borderBottomColor: colors.surfaceContainerHigh }]}>
             <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'U')[0].toUpperCase()}</Text>
+              <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
             </View>
             <View style={styles.profileInfo}>
-              <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'User'}</Text>
+              <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
               <Text style={[styles.profileEmail, { color: colors.onSurfaceVariant }]}>{user?.email}</Text>
             </View>
           </View>

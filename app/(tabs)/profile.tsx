@@ -28,7 +28,7 @@ export default function ProfileScreen() {
   const menuItems = [
     { icon: MapPin, label: t.profile.myAddresses, onPress: () => router.push('/(tabs)/addresses') },
     { icon: Star, label: t.profile.favorites, onPress: () => router.push('/(tabs)/favorites') },
-    { icon: Bell, label: t.profile.notifications, onPress: () => comingSoon(t.profile.notifications) },
+    { icon: Bell, label: t.profile.notifications, onPress: () => router.push('/(tabs)/notifications') },
     { icon: CreditCard, label: t.profile.paymentMethods, onPress: () => comingSoon(t.profile.paymentMethods) },
     { icon: HelpCircle, label: t.profile.helpSupport, onPress: () => router.push('/(tabs)/help') },
   ];
@@ -49,9 +49,9 @@ export default function ProfileScreen() {
       <View style={styles.profileCard}>
         <Image source={require('../../assets/logo.png')} style={styles.logo} resizeMode="contain" />
         <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'U')[0].toUpperCase()}</Text>
+          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
         </View>
-        <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'User'}</Text>
+        <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
         <Text style={[styles.profileEmail, { color: colors.onSurfaceVariant }]}>{user?.email || ''}</Text>
         <View style={[styles.roleBadge, { backgroundColor: colors.primaryFixed }]}>
           <Text style={[styles.roleText, { color: colors.primary }]}>{user?.role || 'USER'}</Text>

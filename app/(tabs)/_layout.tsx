@@ -75,6 +75,7 @@ export default function TabsLayout() {
         <Tabs.Screen name="favorites" options={{ href: null }} />
         <Tabs.Screen name="help" options={{ href: null }} />
         <Tabs.Screen name="settings" options={{ href: null }} />
+        <Tabs.Screen name="notifications" options={{ href: null }} />
       </Tabs>
     );
   }
@@ -130,6 +131,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="favorites" options={{ href: null }} />
       <Tabs.Screen name="help" options={{ href: null }} />
       <Tabs.Screen name="settings" options={{ href: null }} />
+      <Tabs.Screen name="notifications" options={{ href: null }} />
     </Tabs>
   );
 }

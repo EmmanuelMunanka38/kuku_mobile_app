@@ -58,7 +58,7 @@ export default function Login() {
           label={t.auth.email}
           value={email}
           onChangeText={setEmail}
-          placeholder="john@example.com"
+          placeholder="name@email.com"
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
