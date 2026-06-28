@@ -23,6 +23,8 @@ export interface Farm {
   reviewCount: number;
   address?: string;
   city?: string;
+  latitude?: number;
+  longitude?: number;
   isOrganic: boolean;
   tags: string[];
   openStatus: string;
@@ -38,6 +40,11 @@ export interface Order {
   status: 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
   phone?: string;
   addressId?: number;
+  deliveryLatitude?: number;
+  deliveryLongitude?: number;
+  deliveryAddress?: string;
+  snippePaymentReference?: string;
+  snippePaymentStatus?: string;
   items: OrderItem[];
   createdAt: string;
 }
@@ -57,5 +64,7 @@ export interface Address {
   street: string;
   city: string;
   state?: string;
+  latitude?: number;
+  longitude?: number;
   isDefault: boolean;
 }

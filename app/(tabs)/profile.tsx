@@ -49,12 +49,12 @@ export default function ProfileScreen() {
       <View style={styles.profileCard}>
         <Image source={require('../../assets/logo.png')} style={styles.logo} resizeMode="contain" />
         <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
+          <Text style={[styles.avatarText, { color: colors.onPrimary }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
         </View>
         <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
         <Text style={[styles.profileEmail, { color: colors.onSurfaceVariant }]}>{user?.email || ''}</Text>
         <View style={[styles.roleBadge, { backgroundColor: colors.primaryFixed }]}>
-          <Text style={[styles.roleText, { color: colors.primary }]}>{user?.role || 'USER'}</Text>
+          <Text style={[styles.roleText, { color: colors.onPrimaryFixed }]}>{user?.role || 'USER'}</Text>
         </View>
       </View>
 

@@ -29,7 +29,7 @@ export default function Chip({ label, active, onPress, style, icon }: ChipProps)
       {icon}
       <Text style={[
         styles.label,
-        { color: active ? colors.white : colors.onSurfaceVariant },
+        { color: active ? colors.onPrimary : colors.onSurfaceVariant },
       ]}>
         {label}
       </Text>

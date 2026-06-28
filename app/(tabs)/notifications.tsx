@@ -6,6 +6,7 @@ import { useThemeStore } from '../../constants/themes';
 import { typography } from '../../constants/typography';
 import { spacing, borderRadius } from '../../constants/spacing';
 import { useLanguageStore } from '../../i18n';
+import type { ThemeColors } from '../../constants/themes';
 
 interface Notification {
   id: string;
@@ -70,17 +71,23 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   system: Info,
 };
 
-const iconBgMap: Record<string, string> = {
-  order: '#BF7F0615',
-  promo: '#2E7D3215',
-  system: '#1565C015',
-};
+function iconBg(c: ThemeColors, type: string): string {
+  const map: Record<string, string> = {
+    order: c.primary + '20',
+    promo: c.success + '20',
+    system: c.tertiary + '20',
+  };
+  return map[type] || c.surfaceContainerHigh;
+}
 
-const iconColorMap: Record<string, string> = {
-  order: '#BF7F06',
-  promo: '#2E7D32',
-  system: '#1565C0',
-};
+function iconColor(c: ThemeColors, type: string): string {
+  const map: Record<string, string> = {
+    order: c.primary,
+    promo: c.success,
+    system: c.tertiary,
+  };
+  return map[type] || c.onSurfaceVariant;
+}
 
 export default function NotificationsScreen() {
   const colors = useThemeStore((s) => s.colors);
@@ -114,7 +121,7 @@ export default function NotificationsScreen() {
           <Text style={[styles.title, { color: colors.onSurface }]}>{t.notificationsScreen.title}</Text>
           {unreadCount > 0 && (
             <View style={[styles.badge, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.badgeText, { color: colors.white }]}>{unreadCount}</Text>
+              <Text style={[styles.badgeText, { color: colors.onPrimary }]}>{unreadCount}</Text>
             </View>
           )}
         </View>
@@ -160,8 +167,8 @@ export default function NotificationsScreen() {
                   padding="md"
                 >
                   <View style={styles.notifRow}>
-                    <View style={[styles.notifIcon, { backgroundColor: iconBgMap[notification.type] }]}>
-                      <Icon size={20} color={iconColorMap[notification.type]} strokeWidth={2} />
+                    <View style={[styles.notifIcon, { backgroundColor: iconBg(colors, notification.type) }]}>
+                      <Icon size={20} color={iconColor(colors, notification.type)} strokeWidth={2} />
                     </View>
                     <View style={styles.notifContent}>
                       <View style={styles.notifTop}>

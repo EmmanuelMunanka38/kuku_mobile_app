@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { ArrowLeft, Egg, Home, BarChart3, Snowflake, ChevronRight, Heart } from 'lucide-react-native';
 
@@ -78,16 +78,20 @@ export default function ProductDetailScreen() {
       <Stack.Screen options={{ headerShown: false }} />
 
       <View style={[styles.imageWrap, { backgroundColor: colors.surfaceContainerHigh }]}>
-        <View style={styles.imagePlaceholder}>
-          <Egg size={80} color={colors.outline} strokeWidth={1.5} />
-        </View>
+        {product.image ? (
+          <Image source={{ uri: product.image }} style={styles.productImage} />
+        ) : (
+          <View style={styles.imagePlaceholder}>
+            <Egg size={80} color={colors.outline} strokeWidth={1.5} />
+          </View>
+        )}
         <View style={styles.badges}>
           <View style={[styles.badge, { backgroundColor: colors.primary }]}>
-            <Text style={[styles.badgeText, { color: colors.white }]}>{product.category}</Text>
+            <Text style={[styles.badgeText, { color: colors.onPrimary }]}>{product.category}</Text>
           </View>
           {product.weight && (
             <View style={[styles.badge, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.badgeText, { color: colors.white }]}>{product.weight}</Text>
+              <Text style={[styles.badgeText, { color: colors.onPrimary }]}>{product.weight}</Text>
             </View>
           )}
         </View>
@@ -147,7 +151,7 @@ export default function ProductDetailScreen() {
           style={[styles.addBtn, { backgroundColor: colors.primary }]}
           activeOpacity={0.9}
         >
-          <Text style={[styles.addBtnText, { color: colors.white }]}>{t.product.addToCart} · {formatPrice(product.price * quantity)}</Text>
+          <Text style={[styles.addBtnText, { color: colors.onPrimary }]}>{t.product.addToCart} · {formatPrice(product.price * quantity)}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
   errorText: { ...typography.bodyLg, textAlign: 'center' },
   imageWrap: { height: 300, justifyContent: 'center', alignItems: 'center' },
   imagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
+  productImage: { width: '100%', height: 300, resizeMode: 'cover' },
   badges: { position: 'absolute', top: 60, right: spacing.lg, flexDirection: 'row', gap: spacing.sm },
   badge: { paddingHorizontal: spacing.md, paddingVertical: spacing.xs, borderRadius: borderRadius.full },
   badgeText: { ...typography.labelSm, fontWeight: '700', fontSize: 11 },

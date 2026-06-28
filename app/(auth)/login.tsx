@@ -35,7 +35,13 @@ export default function Login() {
         router.replace('/(tabs)');
       }
     } catch (e: any) {
-      setError(e.response?.data?.error || t.auth.loginFailed);
+      if (e.code === 'ERR_NETWORK') {
+        setError('Cannot reach server. Check your internet or try the production build.');
+      } else if (e.code === 'ECONNABORTED') {
+        setError('Request timed out. Server may be starting up, please try again.');
+      } else {
+        setError(e.response?.data?.error || e.response?.data?.message || t.auth.loginFailed);
+      }
     } finally {
       setLoading(false);
     }

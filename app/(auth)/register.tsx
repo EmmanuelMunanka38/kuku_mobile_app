@@ -41,7 +41,13 @@ export default function Register() {
         router.replace('/(tabs)');
       }
     } catch (e: any) {
-      setError(e.response?.data?.error || t.auth.registerFailed);
+      if (e.code === 'ERR_NETWORK') {
+        setError('Cannot reach server. Check your internet or try the production build.');
+      } else if (e.code === 'ECONNABORTED') {
+        setError('Request timed out. Server may be starting up, please try again.');
+      } else {
+        setError(e.response?.data?.error || e.response?.data?.message || t.auth.registerFailed);
+      }
     } finally {
       setLoading(false);
     }
@@ -56,7 +62,7 @@ export default function Register() {
 
         <View>
           <View style={[styles.badge, { backgroundColor: colors.primaryFixed }]}>
-            <Text style={[styles.badgeText, { color: colors.primary }]}>{isFarmer ? t.auth.farmer : t.auth.customer}</Text>
+            <Text style={[styles.badgeText, { color: colors.onPrimaryFixed }]}>{isFarmer ? t.auth.farmer : t.auth.customer}</Text>
           </View>
           <Text style={[styles.title, { color: colors.onSurface }]}>{t.auth.createAccount}</Text>
           <Text style={[styles.subtitle, { color: colors.onSurfaceVariant }]}>{t.auth.registerSubtitle}</Text>
@@ -84,7 +90,7 @@ export default function Register() {
             label={t.auth.phone}
             value={phone}
             onChangeText={setPhone}
-            placeholder="+254 7XX XXX XXX"
+            placeholder="+255 7XX XXX XXX"
             keyboardType="phone-pad"
             icon={<Phone size={18} color={colors.outline} strokeWidth={2} />}
           />

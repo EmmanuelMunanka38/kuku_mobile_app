@@ -64,7 +64,7 @@ export default function HomeScreen() {
           <Text style={[styles.name, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
         </View>
         <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-          <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
+          <Text style={[styles.avatarText, { color: colors.onPrimary }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
         </View>
       </View>
 
@@ -102,12 +102,12 @@ export default function HomeScreen() {
 
       <View style={[styles.promoBanner, { backgroundColor: colors.primary }]}>
         <View style={styles.promoContent}>
-          <Text style={[styles.promoTitle, { color: colors.white }]}>{t.home.promoTitle}</Text>
-          <Text style={[styles.promoSub, { color: colors.primaryFixed }]}>{t.home.promoSubtitle}</Text>
-          <Text style={[styles.promoPrice, { color: colors.primaryFixedDim }]}>{t.home.promoPrice}</Text>
+          <Text style={[styles.promoTitle, { color: colors.onPrimary }]}>{t.home.promoTitle}</Text>
+          <Text style={[styles.promoSub, { color: colors.onPrimary }]}>{t.home.promoSubtitle}</Text>
+          <Text style={[styles.promoPrice, { color: colors.onPrimary }]}>{t.home.promoPrice}</Text>
         </View>
         <View style={styles.promoEmoji}>
-          <Egg size={48} color={colors.white} strokeWidth={1.5} />
+          <Egg size={48} color={colors.onPrimary} strokeWidth={1.5} />
         </View>
       </View>
 

@@ -1,18 +1,17 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import Constants from 'expo-constants';
 
+// Always use production backend. For local development,
+// change USE_LOCAL to true and run a local backend on port 3000.
 const PROD_API_URL = 'https://kuku-backend-b8x4.onrender.com/api';
+const USE_LOCAL = false;
+const LOCAL_API_URL = 'http://localhost:3000/api';
 
-const hostUri = Constants.expoConfig?.hostUri;
-const host = hostUri ? hostUri.split(':')[0] : 'localhost';
-const DEV_API_URL = `http://${host}:3000/api`;
-
-const API_BASE = __DEV__ ? DEV_API_URL : PROD_API_URL;
+const API_BASE = USE_LOCAL ? LOCAL_API_URL : PROD_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 10000,
+  timeout: 15000,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -37,3 +36,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+export { PROD_API_URL, LOCAL_API_URL };

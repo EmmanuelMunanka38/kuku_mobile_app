@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   organicText: { ...typography.labelSm, color: '#FFF', fontSize: 10, fontWeight: '800' },
+  // Note: organic badge uses hardcoded white on success/green — acceptable contrast
   info: { padding: spacing.md, gap: 4 },
   name: { ...typography.titleMd, fontWeight: '700' },
   ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },

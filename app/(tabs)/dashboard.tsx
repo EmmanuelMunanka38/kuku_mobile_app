@@ -84,21 +84,21 @@ export default function FarmerDashboard() {
 
       {farm ? (
         <View style={[styles.farmCard, { backgroundColor: colors.primary }]}>
-          <Text style={[styles.farmName, { color: colors.white }]}>{farm.name}</Text>
-          <Text style={[styles.farmLocation, { color: colors.primaryFixed }]}>📍 {farm.city || farm.address || 'Local Farm'}</Text>
+          <Text style={[styles.farmName, { color: colors.onPrimary }]}>{farm.name}</Text>
+          <Text style={[styles.farmLocation, { color: colors.onPrimary }]}>📍 {farm.city || farm.address || 'Local Farm'}</Text>
 
           <View style={styles.statsRow}>
             <View style={styles.stat}>
-              <Text style={[styles.statValue, { color: colors.white }]}>{farm.products?.length || 0}</Text>
-              <Text style={[styles.statLabel, { color: colors.primaryFixedDim }]}>{t.farmer.products}</Text>
+              <Text style={[styles.statValue, { color: colors.onPrimary }]}>{farm.products?.length || 0}</Text>
+              <Text style={[styles.statLabel, { color: colors.onPrimary }]}>{t.farmer.products}</Text>
             </View>
             <View style={styles.stat}>
-              <Text style={[styles.statValue, { color: colors.white }]}>{farm.rating || '-'}</Text>
-              <Text style={[styles.statLabel, { color: colors.primaryFixedDim }]}>{t.farmer.rating}</Text>
+              <Text style={[styles.statValue, { color: colors.onPrimary }]}>{farm.rating || '-'}</Text>
+              <Text style={[styles.statLabel, { color: colors.onPrimary }]}>{t.farmer.rating}</Text>
             </View>
             <View style={styles.stat}>
-              <Text style={[styles.statValue, { color: colors.white }]}>{orders.length}</Text>
-              <Text style={[styles.statLabel, { color: colors.primaryFixedDim }]}>{t.farmer.orders}</Text>
+              <Text style={[styles.statValue, { color: colors.onPrimary }]}>{orders.length}</Text>
+              <Text style={[styles.statLabel, { color: colors.onPrimary }]}>{t.farmer.orders}</Text>
             </View>
           </View>
         </View>
@@ -106,7 +106,7 @@ export default function FarmerDashboard() {
         <Card style={styles.noFarm}>
           <Text style={[styles.noFarmText, { color: colors.onSurfaceVariant }]}>{t.farmer.noFarm}</Text>
           <TouchableOpacity style={[styles.createFarmBtn, { backgroundColor: colors.primary }]} onPress={() => router.push('/(farmer)/edit-farm')}>
-            <Text style={[styles.createFarmText, { color: colors.white }]}>{t.farmer.createFarm}</Text>
+            <Text style={[styles.createFarmText, { color: colors.onPrimary }]}>{t.farmer.createFarm}</Text>
           </TouchableOpacity>
         </Card>
       )}

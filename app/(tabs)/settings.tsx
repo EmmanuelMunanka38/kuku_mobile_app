@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { User, Lock, Info, ChevronRight } from 'lucide-react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
+import { User, Lock, Info, ChevronRight, Home } from 'lucide-react-native';
 import Card from '../../components/ui/Card';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
@@ -20,6 +20,13 @@ export default function SettingsScreen() {
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [farm, setFarm] = useState<{ name: string; logo?: string; city?: string } | null>(null);
+
+  useEffect(() => {
+    if (user?.role === 'FARMER') {
+      api.get('/farms/my-farm').then(({ data }) => setFarm(data)).catch(() => {});
+    }
+  }, [user]);
 
   const handleChangePassword = async () => {
     if (!currentPassword || !newPassword) { setError('Both fields required'); return; }
@@ -49,13 +56,28 @@ export default function SettingsScreen() {
         <Card variant="elevated" padding="none">
           <View style={[styles.profileRow, { borderBottomColor: colors.surfaceContainerHigh }]}>
             <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.avatarText, { color: colors.white }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
+              <Text style={[styles.avatarText, { color: colors.onPrimary }]}>{(user?.name || 'M')[0].toUpperCase()}</Text>
             </View>
             <View style={styles.profileInfo}>
               <Text style={[styles.profileName, { color: colors.onSurface }]}>{user?.name || 'Mgeni'}</Text>
               <Text style={[styles.profileEmail, { color: colors.onSurfaceVariant }]}>{user?.email}</Text>
             </View>
           </View>
+          {farm && (
+            <View style={[styles.farmRow, { borderTopColor: colors.surfaceContainerHigh }]}>
+              {farm.logo ? (
+                <Image source={{ uri: farm.logo }} style={styles.farmLogo} />
+              ) : (
+                <View style={[styles.farmLogoPlaceholder, { backgroundColor: colors.primary + '20' }]}>
+                  <Home size={20} color={colors.primary} strokeWidth={2} />
+                </View>
+              )}
+              <View style={styles.farmInfo}>
+                <Text style={[styles.farmName, { color: colors.onSurface }]}>{farm.name}</Text>
+                {farm.city && <Text style={[styles.farmCity, { color: colors.onSurfaceVariant }]}>{farm.city}</Text>}
+              </View>
+            </View>
+          )}
         </Card>
       </View>
 
@@ -111,6 +133,15 @@ const styles = StyleSheet.create({
   profileInfo: { flex: 1 },
   profileName: { ...typography.titleMd, fontWeight: '700' },
   profileEmail: { ...typography.bodySm, marginTop: 2 },
+  farmRow: {
+    flexDirection: 'row', alignItems: 'center',
+    padding: spacing.lg, gap: spacing.md, borderTopWidth: 1,
+  },
+  farmLogo: { width: 40, height: 40, borderRadius: 20, resizeMode: 'cover' },
+  farmLogoPlaceholder: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
+  farmInfo: { flex: 1 },
+  farmName: { ...typography.titleMd, fontWeight: '700' },
+  farmCity: { ...typography.bodySm, marginTop: 1 },
   menuItem: {
     flexDirection: 'row', alignItems: 'center',
     paddingVertical: spacing.lg, paddingHorizontal: spacing.lg,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator, Image } from 'react-native';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { ArrowLeft, Sprout, Star, MapPin, Tag } from 'lucide-react-native';
 
@@ -56,12 +56,16 @@ export default function FarmDetailScreen() {
       <Stack.Screen options={{ headerShown: false }} />
 
       <View style={[styles.hero, { backgroundColor: colors.surfaceContainerHigh }]}>
-        <View style={styles.heroPlaceholder}>
-          <Sprout size={64} color={colors.outline} strokeWidth={1.5} />
-        </View>
+        {farm.heroImage ? (
+          <Image source={{ uri: farm.heroImage }} style={styles.heroImage} />
+        ) : (
+          <View style={styles.heroPlaceholder}>
+            <Sprout size={64} color={colors.outline} strokeWidth={1.5} />
+          </View>
+        )}
         {farm.isOrganic && (
           <View style={[styles.organicBadge, { backgroundColor: colors.primary }]}>
-            <Text style={[styles.organicText, { color: colors.white }]}>{t.farm.organic}</Text>
+            <Text style={[styles.organicText, { color: colors.onPrimary }]}>{t.farm.organic}</Text>
           </View>
         )}
         <TouchableOpacity onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: isDark ? 'rgba(20,20,20,0.95)' : 'rgba(255,255,255,0.95)' }]}>
@@ -72,7 +76,11 @@ export default function FarmDetailScreen() {
       <View style={[styles.infoCard, { backgroundColor: colors.surfaceContainerLowest }]}>
         <View style={styles.farmTop}>
           <View style={[styles.farmLogo, { backgroundColor: colors.surfaceContainerHigh }]}>
-            <Sprout size={28} color={colors.primary} strokeWidth={2} />
+            {farm.logo ? (
+              <Image source={{ uri: farm.logo }} style={styles.farmLogoImage} />
+            ) : (
+              <Sprout size={28} color={colors.primary} strokeWidth={2} />
+            )}
           </View>
           <View style={styles.farmInfo}>
             <Text style={[styles.farmName, { color: colors.onSurface }]}>{farm.name}</Text>
@@ -154,7 +162,7 @@ export default function FarmDetailScreen() {
         <Card variant="filled" style={styles.reviewCard}>
           <View style={styles.reviewHeader}>
             <View style={[styles.reviewAvatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>GK</Text>
+              <Text style={[styles.reviewAvatarText, { color: colors.onPrimary }]}>GK</Text>
             </View>
             <View>
               <Text style={[styles.reviewerName, { color: colors.onSurface }]}>Grace Kemunto</Text>
@@ -170,7 +178,7 @@ export default function FarmDetailScreen() {
         <Card variant="filled" style={styles.reviewCard}>
           <View style={styles.reviewHeader}>
             <View style={[styles.reviewAvatar, { backgroundColor: colors.primary }]}>
-              <Text style={[styles.reviewAvatarText, { color: colors.white }]}>EC</Text>
+              <Text style={[styles.reviewAvatarText, { color: colors.onPrimary }]}>EC</Text>
             </View>
             <View>
               <Text style={[styles.reviewerName, { color: colors.onSurface }]}>Emmanuel Chacha</Text>
@@ -196,7 +204,9 @@ const styles = StyleSheet.create({
   center: { justifyContent: 'center', alignItems: 'center', padding: spacing.xxl },
   errorText: { ...typography.bodyLg, textAlign: 'center' },
   hero: { height: 240, justifyContent: 'center', alignItems: 'center' },
+  heroImage: { width: '100%', height: 240, resizeMode: 'cover' },
   heroPlaceholder: { alignItems: 'center', justifyContent: 'center' },
+  farmLogoImage: { width: 56, height: 56, borderRadius: 28, resizeMode: 'cover' },
   organicBadge: {
     position: 'absolute', top: 60, right: spacing.lg,
     paddingHorizontal: spacing.md, paddingVertical: spacing.xs,

@@ -45,7 +45,7 @@ export default function Button({
           styles.base,
           variant === 'primary' && { backgroundColor: colors.primary },
           variant === 'secondary' && { backgroundColor: colors.secondaryContainer },
-          variant === 'outline' && { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: colors.primary },
+          variant === 'outline' && { backgroundColor: colors.primary + '20', borderWidth: 1.5, borderColor: colors.primary },
           variant === 'text' && { backgroundColor: 'transparent' },
           size === 'sm' && styles.size_sm,
           size === 'md' && styles.size_md,
@@ -55,15 +55,15 @@ export default function Button({
         ]}
       >
         {loading ? (
-          <ActivityIndicator color={variant === 'primary' ? colors.white : colors.primary} />
+          <ActivityIndicator color={variant === 'primary' ? colors.onPrimary : colors.primary} />
         ) : (
           <>
             {icon}
             <Text style={[
               styles.text,
-              variant === 'primary' && { color: colors.white },
+              variant === 'primary' && { color: colors.onPrimary },
               variant === 'secondary' && { color: colors.primary },
-              variant === 'outline' && { color: colors.primary },
+              variant === 'outline' && { color: colors.onSurface },
               variant === 'text' && { color: colors.primary },
               size === 'sm' && styles.textSize_sm,
               size === 'md' && styles.textSize_md,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   size_sm: { paddingVertical: spacing.sm, paddingHorizontal: spacing.lg },
   size_md: { paddingVertical: spacing.md, paddingHorizontal: spacing.xxl },
   size_lg: { paddingVertical: spacing.lg + 2, paddingHorizontal: spacing.xxxl },
-  disabled: { opacity: 0.5 },
+  disabled: { opacity: 0.6 },
   text: { fontWeight: '700' },
   textSize_sm: { ...typography.labelSm },
   textSize_md: { ...typography.labelMd, fontSize: 15 },

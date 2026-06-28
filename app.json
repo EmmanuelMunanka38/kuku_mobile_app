@@ -28,7 +28,27 @@
     },
     "plugins": [
       "expo-router",
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow AGRINOVA to access your photos to upload product images.",
+          "cameraPermission": "Allow AGRINOVA to access your camera to take product photos."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow AGRINOVA to use your location to deliver orders to your address.",
+          "locationWhenInUsePermission": "Allow AGRINOVA to use your location to set your delivery address."
+        }
+      ],
+      [
+        "react-native-maps",
+        {
+          "androidGoogleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
+        }
+      ]
     ]
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { Package } from 'lucide-react-native';
+import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
+import { Package, MapPin } from 'lucide-react-native';
 
 import Card from '../../components/ui/Card';
 import { useThemeStore } from '../../constants/themes';
@@ -62,23 +63,34 @@ export default function OrdersScreen() {
         ) : (
           orders.map((order) => (
             <Card key={order.id} variant="elevated" style={styles.orderCard}>
-              <View style={styles.orderTop}>
-                <Text style={[styles.orderId, { color: colors.onSurface }]}>Order #{order.id}</Text>
-                <View style={[styles.statusBadge, { backgroundColor: (statusColors[order.status] || '#999') + '20' }]}>
-                  <Text style={[styles.statusText, { color: statusColors[order.status] || '#999' }]}>{order.status}</Text>
+              <TouchableOpacity
+                onPress={() => router.push(`/order/${order.id}`)}
+                activeOpacity={0.7}
+              >
+                <View style={styles.orderTop}>
+                  <Text style={[styles.orderId, { color: colors.onSurface }]}>Order #{order.id}</Text>
+                  <View style={[styles.statusBadge, { backgroundColor: (statusColors[order.status] || '#999') + '20' }]}>
+                    <Text style={[styles.statusText, { color: statusColors[order.status] || '#999' }]}>{order.status}</Text>
+                  </View>
                 </View>
-              </View>
-              <Text style={[styles.orderDate, { color: colors.onSurfaceVariant }]}>{new Date(order.createdAt).toLocaleDateString()}</Text>
-              {order.items?.map((item) => (
-                <View key={item.id} style={styles.orderItem}>
-                  <Text style={[styles.itemName, { color: colors.onSurface }]}>{item.product.name} ×{item.quantity}</Text>
-                  <Text style={[styles.itemPrice, { color: colors.onSurfaceVariant }]}>{formatPrice(item.price * item.quantity)}</Text>
+                <Text style={[styles.orderDate, { color: colors.onSurfaceVariant }]}>{new Date(order.createdAt).toLocaleDateString()}</Text>
+                {order.items?.map((item) => (
+                  <View key={item.id} style={styles.orderItem}>
+                    <Text style={[styles.itemName, { color: colors.onSurface }]}>{item.product.name} ×{item.quantity}</Text>
+                    <Text style={[styles.itemPrice, { color: colors.onSurfaceVariant }]}>{formatPrice(item.price * item.quantity)}</Text>
+                  </View>
+                ))}
+                <View style={[styles.orderTotal, { borderTopColor: colors.surfaceContainerHigh }]}>
+                  <Text style={[styles.totalLabel, { color: colors.onSurface }]}>{t.orders.orderTotal}</Text>
+                  <Text style={[styles.totalPrice, { color: colors.primary }]}>{formatPrice(order.total)}</Text>
                 </View>
-              ))}
-              <View style={[styles.orderTotal, { borderTopColor: colors.surfaceContainerHigh }]}>
-                <Text style={[styles.totalLabel, { color: colors.onSurface }]}>{t.orders.orderTotal}</Text>
-                <Text style={[styles.totalPrice, { color: colors.primary }]}>{formatPrice(order.total)}</Text>
-              </View>
+                {order.status !== 'CANCELLED' && order.status !== 'DELIVERED' && (
+                  <View style={styles.trackRow}>
+                    <MapPin size={14} color={colors.primary} strokeWidth={2} />
+                    <Text style={[styles.trackText, { color: colors.primary }]}>{t.orders.trackOrder}</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </Card>
           ))
         )}
@@ -109,4 +121,6 @@ const styles = StyleSheet.create({
   orderTotal: { flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.md, paddingTop: spacing.md, borderTopWidth: 1 },
   totalLabel: { ...typography.titleMd, fontWeight: '700' },
   totalPrice: { ...typography.titleMd, fontWeight: '800' },
+  trackRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: spacing.md, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: 'transparent' },
+  trackText: { ...typography.bodySm, fontWeight: '700' },
 });

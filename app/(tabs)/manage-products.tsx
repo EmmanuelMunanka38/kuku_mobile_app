@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, Alert, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Plus, Pencil, Trash2, Package } from 'lucide-react-native';
 
@@ -74,12 +74,15 @@ export default function ManageProductsScreen() {
           products.map((product) => (
             <Card key={product.id} variant="elevated" style={styles.productCard}>
               <View style={styles.productRow}>
+                {product.image && (
+                  <Image source={{ uri: product.image }} style={styles.productThumb} />
+                )}
                 <View style={styles.productInfo}>
                   <Text style={[styles.productName, { color: colors.onSurface }]}>{product.name}</Text>
                   <Text style={[styles.productPrice, { color: colors.primary }]}>{formatPrice(product.price)}</Text>
                   <View style={styles.metaRow}>
                     <View style={[styles.badge, { backgroundColor: colors.primaryFixed }]}>
-                      <Text style={[styles.badgeText, { color: colors.primary }]}>{product.category}</Text>
+                      <Text style={[styles.badgeText, { color: colors.onPrimaryFixed }]}>{product.category}</Text>
                     </View>
                     {product.weight && <Text style={[styles.weight, { color: colors.onSurfaceVariant }]}>{product.weight}</Text>}
                     <Text style={[styles.inventory, { color: colors.onSurfaceVariant }]}>{t.farmer.inventory}: {product.inventory}</Text>
@@ -126,7 +129,8 @@ const styles = StyleSheet.create({
   emptyTitle: { ...typography.titleMd, fontWeight: '700' },
   emptySub: { ...typography.bodyMd, textAlign: 'center' },
   productCard: { marginBottom: spacing.md },
-  productRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  productRow: { flexDirection: 'row', gap: spacing.md },
+  productThumb: { width: 56, height: 56, borderRadius: borderRadius.md, backgroundColor: '#e0e0e0' },
   productInfo: { flex: 1 },
   productName: { ...typography.titleMd, fontWeight: '700' },
   productPrice: { ...typography.headlineSm, fontWeight: '800', marginTop: 2 },

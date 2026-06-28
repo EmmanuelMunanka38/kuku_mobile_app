@@ -14,6 +14,12 @@ interface CartItem {
   };
 }
 
+export interface CheckoutResult {
+  orderId: number;
+  paymentReference?: string;
+  paymentStatus?: string;
+}
+
 interface CartState {
   items: CartItem[];
   isLoading: boolean;
@@ -23,7 +29,7 @@ interface CartState {
   updateItem: (itemId: number, quantity: number) => Promise<void>;
   removeItem: (itemId: number) => Promise<void>;
   clearCart: () => Promise<void>;
-  checkout: (phone?: string) => Promise<number>;
+  checkout: (phone?: string, addressId?: number) => Promise<CheckoutResult>;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
@@ -62,14 +68,15 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ items: [], total: 0 });
   },
 
-  checkout: async (phone?: string) => {
+  checkout: async (phone?: string, addressId?: number) => {
     const { items } = get();
     const payload = {
       items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
       phone: phone || undefined,
+      addressId: addressId || undefined,
     };
     const res = await api.post('/orders', payload);
     set({ items: [], total: 0 });
-    return res.data.orderId;
+    return res.data;
   },
 }));

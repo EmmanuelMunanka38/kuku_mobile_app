@@ -37,14 +37,14 @@ export default function HelpScreen() {
 
       <Card style={styles.contactCard}>
         <HelpCircle size={24} color={colors.primary} strokeWidth={2} />
-        <Text style={[styles.contactTitle, { color: colors.onSurface }]}>Need more help?</Text>
+        <Text style={[styles.contactTitle, { color: colors.onSurface }]}>Need more help ?</Text>
         <View style={styles.contactRow}>
           <Mail size={16} color={colors.onSurfaceVariant} strokeWidth={2} />
           <Text style={[styles.contactText, { color: colors.onSurfaceVariant }]}>support@kukumart.com</Text>
         </View>
         <View style={styles.contactRow}>
           <MessageCircle size={16} color={colors.onSurfaceVariant} strokeWidth={2} />
-          <Text style={[styles.contactText, { color: colors.onSurfaceVariant }]}>+255 712 345 678</Text>
+          <Text style={[styles.contactText, { color: colors.onSurfaceVariant }]}>+255 740 336 972</Text>
         </View>
       </Card>
 
