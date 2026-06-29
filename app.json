@@ -2,9 +2,9 @@
   "expo": {
     "name": "AGRINOVA",
     "slug": "agrinova",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appi.png",
     "userInterfaceStyle": "light",
     "scheme": "kukumart",
     "splash": {
