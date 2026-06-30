@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Activ
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { ArrowLeft, Package, MapPin, CheckCircle, Circle, Truck } from 'lucide-react-native';
 import MapView, { UrlTile, Marker, Polyline } from 'react-native-maps';
+import { MAPBOX_TILE_URL } from '../../constants/map';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import { useThemeStore } from '../../constants/themes';
@@ -104,9 +105,11 @@ export default function OrderTrackingScreen() {
             }}
           >
             <UrlTile
-              urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              urlTemplate={MAPBOX_TILE_URL}
               maximumZ={19}
               flipY={false}
+              tileSize={512}
+              shouldReplaceMapContent
             />
             {hasLocation && (
               <Marker

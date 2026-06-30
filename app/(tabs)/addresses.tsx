@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity, A
 import { MapPin, Plus, Trash2, Check, Crosshair, Navigation } from 'lucide-react-native';
 import MapView, { UrlTile, Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { MAPBOX_TILE_URL } from '../../constants/map';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -175,7 +176,7 @@ export default function AddressesScreen() {
                     longitudeDelta: 0.02,
                   }}
                 >
-                  <UrlTile urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png" maximumZ={19} flipY={false} />
+                  <UrlTile urlTemplate={MAPBOX_TILE_URL} maximumZ={19} flipY={false} tileSize={512} shouldReplaceMapContent />
                   <Marker coordinate={{ latitude: addr.latitude, longitude: addr.longitude }} />
                 </MapView>
               </View>
@@ -221,9 +222,11 @@ export default function AddressesScreen() {
                     onPress={handleMapPress}
                   >
                     <UrlTile
-                      urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      urlTemplate={MAPBOX_TILE_URL}
                       maximumZ={19}
                       flipY={false}
+                      tileSize={512}
+                      shouldReplaceMapContent
                     />
                     {latitude && longitude && (
                       <Marker

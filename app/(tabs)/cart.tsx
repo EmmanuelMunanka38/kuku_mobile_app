@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity, A
 import { router } from 'expo-router';
 import { ShoppingCart, Trash2, MapPin, Plus, Check } from 'lucide-react-native';
 import MapView, { UrlTile, Marker } from 'react-native-maps';
+import { MAPBOX_TILE_URL } from '../../constants/map';
 
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -194,7 +195,7 @@ export default function CartScreen() {
                               longitudeDelta: 0.02,
                             }}
                           >
-                            <UrlTile urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png" maximumZ={19} flipY={false} />
+                            <UrlTile urlTemplate={MAPBOX_TILE_URL} maximumZ={19} flipY={false} tileSize={512} shouldReplaceMapContent />
                             <Marker coordinate={{ latitude: addr.latitude, longitude: addr.longitude }} />
                           </MapView>
                         </View>
