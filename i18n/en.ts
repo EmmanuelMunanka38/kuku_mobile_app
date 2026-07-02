@@ -39,6 +39,7 @@ export const en = {
     noAccount: "Don't have an account?",
     haveAccount: 'Already have an account?',
     joinAs: 'Join as',
+    driver: 'Driver',
     customer: 'Customer',
     farmer: 'Farmer',
   },

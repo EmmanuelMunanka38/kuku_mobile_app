@@ -33,9 +33,16 @@ export interface Farm {
   products?: Product[];
 }
 
+export interface Driver {
+  id: number;
+  name?: string;
+  phone?: string;
+}
+
 export interface Order {
   id: number;
   userId?: number;
+  driverId?: number;
   total: number;
   status: 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
   phone?: string;
@@ -46,6 +53,7 @@ export interface Order {
   snippePaymentReference?: string;
   snippePaymentStatus?: string;
   items: OrderItem[];
+  driver?: Driver;
   createdAt: string;
 }
 

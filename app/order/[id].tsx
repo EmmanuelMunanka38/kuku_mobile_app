@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
-import { ArrowLeft, Package, MapPin, CheckCircle, Circle, Truck } from 'lucide-react-native';
-import MapView, { UrlTile, Marker, Polyline } from 'react-native-maps';
-import { MAPBOX_TILE_URL } from '../../constants/map';
+import { ArrowLeft, Package, MapPin, CheckCircle, Circle, Truck, Phone, Navigation } from 'lucide-react-native';
+import Mapbox from '@rnmapbox/maps';
+import { MAPBOX_STYLE } from '../../constants/map';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import { useThemeStore } from '../../constants/themes';
@@ -31,7 +31,7 @@ export default function OrderTrackingScreen() {
   const colors = useThemeStore((s) => s.colors);
   const isDark = useThemeStore((s) => s.isDark);
   const { t } = useLanguageStore();
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<Mapbox.MapView>(null);
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -48,6 +48,12 @@ export default function OrderTrackingScreen() {
   };
 
   useEffect(() => { fetchOrder(); }, [id]);
+
+  useEffect(() => {
+    if (!order || order.status !== 'SHIPPED') return;
+    const interval = setInterval(fetchOrder, 30000);
+    return () => clearInterval(interval);
+  }, [order?.id, order?.status]);
 
   const currentStep = order ? statusFlow.indexOf(order.status) : -1;
 
@@ -88,49 +94,94 @@ export default function OrderTrackingScreen() {
       </View>
 
       <View style={styles.mapSection}>
-        <View style={styles.mapContainer}>
-          <MapView
+        <View style={[styles.mapContainer, (order.status === 'SHIPPED' || order.status === 'DELIVERED') && { height: 260 }]}>
+          <Mapbox.MapView
             ref={mapRef}
             style={styles.map}
-            initialRegion={hasLocation ? {
-              latitude: order.deliveryLatitude!,
-              longitude: order.deliveryLongitude!,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            } : {
-              latitude: -6.3690,
-              longitude: 34.8888,
-              latitudeDelta: 5,
-              longitudeDelta: 5,
-            }}
+            styleURL={MAPBOX_STYLE}
+            scrollEnabled={order.status === 'SHIPPED'}
+            zoomEnabled={order.status === 'SHIPPED'}
+            rotateEnabled={false}
+            pitchEnabled={false}
           >
-            <UrlTile
-              urlTemplate={MAPBOX_TILE_URL}
-              maximumZ={19}
-              flipY={false}
-              tileSize={512}
-              shouldReplaceMapContent
+            <Mapbox.Camera
+              defaultSettings={{
+                centerCoordinate: hasLocation
+                  ? [order.deliveryLongitude!, order.deliveryLatitude!]
+                  : [34.8888, -6.3690],
+                zoomLevel: hasLocation ? 14 : 4,
+              }}
             />
             {hasLocation && (
-              <Marker
-                coordinate={{
-                  latitude: order.deliveryLatitude!,
-                  longitude: order.deliveryLongitude!,
-                }}
-                title={t.orders.deliveredTo}
-                description={order.deliveryAddress || ''}
-              >
-                <View style={[styles.markerPin, { backgroundColor: colors.primary }]}>
-                  <MapPin size={20} color={colors.onPrimary} strokeWidth={2.5} />
-                </View>
-              </Marker>
+              <>
+                <Mapbox.PointAnnotation
+                  id="delivery"
+                  coordinate={[order.deliveryLongitude!, order.deliveryLatitude!]}
+                >
+                  <View style={[styles.markerPin, { backgroundColor: colors.primary }]}>
+                    <MapPin size={20} color={colors.onPrimary} strokeWidth={2.5} />
+                  </View>
+                </Mapbox.PointAnnotation>
+                {(order.status === 'SHIPPED') && (
+                  <Mapbox.PointAnnotation
+                    id="driver"
+                    coordinate={[order.deliveryLongitude! + 0.005, order.deliveryLatitude! - 0.003]}
+                  >
+                    <View style={[styles.driverTrackMarker, { backgroundColor: '#1565C0' }]}>
+                      <Truck size={18} color="#fff" strokeWidth={2.5} />
+                    </View>
+                  </Mapbox.PointAnnotation>
+                )}
+              </>
             )}
-          </MapView>
+          </Mapbox.MapView>
+          {(order.status === 'SHIPPED' || order.status === 'PROCESSING') && (
+            <View style={[styles.mapOverlayBottom, { backgroundColor: colors.surface + 'E6' }]}>
+              <View style={[styles.liveDot, { backgroundColor: '#2E7D32' }]} />
+              <Text style={[styles.liveLabel, { color: colors.onSurface }]}>
+                {order.status === 'SHIPPED' ? 'Your order is on the way' : 'Preparing your order'}
+              </Text>
+            </View>
+          )}
         </View>
         <Text style={[styles.deliveryAddress, { color: colors.onSurfaceVariant }]}>
           <MapPin size={14} color={colors.primary} strokeWidth={2} /> {order.deliveryAddress || 'Delivery location not set'}
         </Text>
+        {order.status === 'SHIPPED' && (order as any).driver?.phone && (
+          <TouchableOpacity style={styles.callDriverRow}>
+            <Phone size={16} color={colors.onPrimary} strokeWidth={2} />
+            <Text style={[styles.callDriverText, { color: colors.onPrimary }]}>
+              Call Driver ({(order as any).driver.phone})
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
+
+      {(order.status === 'SHIPPED' || order.status === 'DELIVERED') && (order as any).driver && (
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.onSurface }]}>Your Driver</Text>
+          <Card variant="elevated" style={styles.driverCard}>
+            <View style={[styles.driverAvatarLarge, { backgroundColor: colors.primary }]}>
+              <Text style={[styles.driverAvatarText, { color: colors.onPrimary }]}>
+                {((order as any).driver.name || 'D')[0].toUpperCase()}
+              </Text>
+            </View>
+            <View style={styles.driverInfo}>
+              <Text style={[styles.driverName, { color: colors.onSurface }]}>{(order as any).driver.name || 'Driver'}</Text>
+              {(order as any).driver.phone && (
+                <TouchableOpacity style={styles.driverPhoneRow}>
+                  <Phone size={14} color={colors.primary} strokeWidth={2} />
+                  <Text style={[styles.driverPhone, { color: colors.primary }]}>{(order as any).driver.phone}</Text>
+                </TouchableOpacity>
+              )}
+              <View style={[styles.liveBadge, { backgroundColor: colors.primary + '15' }]}>
+                <View style={[styles.liveDot, { backgroundColor: '#2E7D32' }]} />
+                <Text style={[styles.liveText, { color: colors.primary }]}>Live</Text>
+              </View>
+            </View>
+          </Card>
+        </View>
+      )}
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: colors.onSurface }]}>{t.orders.orderStatus}</Text>
@@ -268,4 +319,45 @@ const styles = StyleSheet.create({
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.md, paddingTop: spacing.md, borderTopWidth: 1 },
   totalLabel: { ...typography.titleMd, fontWeight: '700' },
   totalPrice: { ...typography.titleMd, fontWeight: '800' },
+
+  driverCard: {
+    flexDirection: 'row', alignItems: 'center',
+    padding: spacing.lg, gap: spacing.lg,
+  },
+  driverAvatarLarge: {
+    width: 52, height: 52, borderRadius: 26,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  driverAvatarText: { ...typography.titleLg, fontWeight: '800' },
+  driverInfo: { flex: 1, gap: 4 },
+  driverName: { ...typography.titleMd, fontWeight: '700' },
+  driverPhoneRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  driverPhone: { ...typography.bodyMd, fontWeight: '600' },
+  liveBadge: {
+    flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start',
+    gap: spacing.xs, paddingVertical: 2, paddingHorizontal: spacing.sm,
+    borderRadius: 20, marginTop: 2,
+  },
+  liveDot: { width: 6, height: 6, borderRadius: 3 },
+  liveText: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
+
+  driverTrackMarker: {
+    width: 40, height: 40, borderRadius: 20,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: 3, borderColor: '#fff',
+    shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 6,
+  },
+  mapOverlayBottom: {
+    position: 'absolute', bottom: 0, left: 0, right: 0,
+    flexDirection: 'row', alignItems: 'center', gap: spacing.sm,
+    paddingVertical: spacing.sm, paddingHorizontal: spacing.lg,
+  },
+  liveLabel: { ...typography.labelMd, fontWeight: '700' },
+  callDriverRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: spacing.sm, marginTop: spacing.sm,
+    backgroundColor: '#2E7D32', paddingVertical: spacing.md,
+    borderRadius: borderRadius.lg,
+  },
+  callDriverText: { ...typography.labelMd, fontWeight: '800' },
 });

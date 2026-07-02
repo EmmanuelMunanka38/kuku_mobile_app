@@ -28,23 +28,22 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  useEffect(() => {
     loadStoredAuth();
     loadLanguage();
     loadTheme();
   }, []);
 
+  const isLoading = useAuthStore((s) => s.isLoading);
+
   useEffect(() => {
-    if (fontsLoaded) {
-      const timer = setTimeout(() => setShowSplash(false), 3000);
+    if (fontsLoaded && !isLoading) {
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        SplashScreen.hideAsync();
+      }, 800);
       return () => clearTimeout(timer);
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, isLoading]);
 
   if (!fontsLoaded || showSplash) {
     return (
@@ -60,12 +59,12 @@ export default function RootLayout() {
       <StatusBar style={isDark ? 'light' : 'dark'} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="onboarding" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="farm/[id]" />
         <Stack.Screen name="product/[id]" />
         <Stack.Screen name="order/[id]" />
+        <Stack.Screen name="(driver)" />
       </Stack>
     </View>
   );

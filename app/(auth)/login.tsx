@@ -87,7 +87,7 @@ export default function Login() {
           icon={<LogIn size={20} color={colors.white} strokeWidth={2.5} />}
         />
 
-        <TouchableOpacity onPress={() => router.push('/(auth)/register')} style={styles.switch}>
+        <TouchableOpacity onPress={() => router.push('/(auth)/role-select')} style={styles.switch}>
           <Text style={[styles.switchText, { color: colors.onSurfaceVariant }]}>
             {t.auth.noAccount} <Text style={[styles.switchLink, { color: colors.primary }]}>{t.auth.register}</Text>
           </Text>

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity, Alert, TextInput, Modal, Dimensions } from 'react-native';
 import { router } from 'expo-router';
 import { ShoppingCart, Trash2, MapPin, Plus, Check } from 'lucide-react-native';
-import MapView, { UrlTile, Marker } from 'react-native-maps';
-import { MAPBOX_TILE_URL } from '../../constants/map';
+import Mapbox from '@rnmapbox/maps';
+import { MAPBOX_STYLE } from '../../constants/map';
 
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -182,22 +182,24 @@ export default function CartScreen() {
                       <Text style={[styles.addressOptionText, { color: colors.onSurfaceVariant }]}>{addr.street}, {addr.city}</Text>
                       {selectedAddressId === addr.id && addr.latitude && addr.longitude && (
                         <View style={[styles.addressMiniMap, { borderColor: colors.outline + '30' }]}>
-                          <MapView
+                          <Mapbox.MapView
                             style={styles.addressMiniMapInner}
                             scrollEnabled={false}
                             zoomEnabled={false}
                             rotateEnabled={false}
                             pitchEnabled={false}
-                            initialRegion={{
-                              latitude: addr.latitude,
-                              longitude: addr.longitude,
-                              latitudeDelta: 0.02,
-                              longitudeDelta: 0.02,
-                            }}
+                            styleURL={MAPBOX_STYLE}
                           >
-                            <UrlTile urlTemplate={MAPBOX_TILE_URL} maximumZ={19} flipY={false} tileSize={512} shouldReplaceMapContent />
-                            <Marker coordinate={{ latitude: addr.latitude, longitude: addr.longitude }} />
-                          </MapView>
+                            <Mapbox.Camera
+                              defaultSettings={{ centerCoordinate: [addr.longitude, addr.latitude], zoomLevel: 14 }}
+                            />
+                            <Mapbox.PointAnnotation
+                              id={`addr-${addr.id}`}
+                              coordinate={[addr.longitude, addr.latitude]}
+                            >
+                              <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colors.primary, borderWidth: 2, borderColor: '#fff' }} />
+                            </Mapbox.PointAnnotation>
+                          </Mapbox.MapView>
                         </View>
                       )}
                     </View>

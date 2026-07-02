@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, Image, Alert, Modal, FlatList } from 'react-native';
 import { router } from 'expo-router';
-import { Plus, ClipboardList, Settings, Package, Phone, User } from 'lucide-react-native';
+import { Plus, ClipboardList, Settings, Package, Phone, User, Truck, X } from 'lucide-react-native';
 
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -38,6 +38,10 @@ export default function FarmerDashboard() {
   const [farm, setFarm] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [drivers, setDrivers] = useState<any[]>([]);
+  const [showDriverModal, setShowDriverModal] = useState(false);
+  const [pendingShipOrderId, setPendingShipOrderId] = useState<number | null>(null);
+  const [loadingDrivers, setLoadingDrivers] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -56,7 +60,43 @@ export default function FarmerDashboard() {
     setRefreshing(false);
   };
 
+  const fetchDrivers = async () => {
+    setLoadingDrivers(true);
+    try {
+      const { data } = await api.get('/users/drivers');
+      setDrivers(data);
+    } catch {
+      Alert.alert(t.common.error, 'Failed to load drivers');
+    } finally {
+      setLoadingDrivers(false);
+    }
+  };
+
+  const handleAssignDriver = async (driverId: number) => {
+    if (!pendingShipOrderId) return;
+    try {
+      await api.patch(`/orders/${pendingShipOrderId}/assign-driver`, { driverId });
+      await api.patch(`/orders/${pendingShipOrderId}/status`, { status: 'SHIPPED' });
+      setOrders((prev) =>
+        prev.map((o) => (o.id === pendingShipOrderId ? { ...o, status: 'SHIPPED', driverId } : o))
+      );
+      setShowDriverModal(false);
+      setPendingShipOrderId(null);
+      Alert.alert(t.farmer.statusUpdated);
+    } catch (e: any) {
+      Alert.alert(t.common.error, e.response?.data?.error || t.farmer.statusUpdateFailed);
+    }
+  };
+
   const handleStatusUpdate = async (orderId: number, status: string) => {
+    if (status === 'SHIPPED') {
+      try {
+        await fetchDrivers();
+        setPendingShipOrderId(orderId);
+        setShowDriverModal(true);
+      } catch {}
+      return;
+    }
     try {
       await api.patch(`/orders/${orderId}/status`, { status });
       setOrders((prev) =>
@@ -211,6 +251,54 @@ export default function FarmerDashboard() {
       </View>
 
       <View style={{ height: 40 }} />
+
+      <Modal visible={showDriverModal} transparent animationType="slide" onRequestClose={() => setShowDriverModal(false)}>
+        <View style={[styles.modalOverlay, { backgroundColor: 'rgba(0,0,0,0.5)' }]}>
+          <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: colors.onSurface }]}>Assign a Driver</Text>
+              <TouchableOpacity onPress={() => { setShowDriverModal(false); setPendingShipOrderId(null); }}>
+                <X size={24} color={colors.onSurfaceVariant} strokeWidth={2} />
+              </TouchableOpacity>
+            </View>
+            <Text style={[styles.modalSubtitle, { color: colors.onSurfaceVariant }]}>
+              Select a driver to deliver this order
+            </Text>
+            {loadingDrivers ? (
+              <Text style={[styles.loadingText, { color: colors.onSurfaceVariant }]}>Loading drivers...</Text>
+            ) : drivers.length === 0 ? (
+              <View style={styles.noDrivers}>
+                <Truck size={40} color={colors.outline} strokeWidth={1.5} />
+                <Text style={[styles.noDriversText, { color: colors.onSurfaceVariant }]}>No drivers available</Text>
+                <Text style={[styles.noDriversSub, { color: colors.outline }]}>Register drivers in the system first</Text>
+              </View>
+            ) : (
+              <FlatList
+                data={drivers}
+                keyExtractor={(item) => String(item.id)}
+                style={styles.driverList}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[styles.driverItem, { borderBottomColor: colors.surfaceContainerHigh }]}
+                    onPress={() => handleAssignDriver(item.id)}
+                  >
+                    <View style={[styles.driverAvatar, { backgroundColor: colors.primary }]}>
+                      <Text style={[styles.driverAvatarText, { color: colors.onPrimary }]}>
+                        {(item.name || 'D')[0].toUpperCase()}
+                      </Text>
+                    </View>
+                    <View style={styles.driverInfo}>
+                      <Text style={[styles.driverName, { color: colors.onSurface }]}>{item.name || 'Unknown'}</Text>
+                      {item.phone && <Text style={[styles.driverPhone, { color: colors.onSurfaceVariant }]}>{item.phone}</Text>}
+                    </View>
+                    <Truck size={20} color={colors.primary} strokeWidth={2} />
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -264,4 +352,28 @@ const styles = StyleSheet.create({
   statusActions: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md, flexWrap: 'wrap' },
   statusBtn: { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm, borderRadius: borderRadius.full },
   statusBtnText: { ...typography.labelSm, fontWeight: '800' },
+  modalOverlay: { flex: 1, justifyContent: 'flex-end' },
+  modalContent: {
+    borderTopLeftRadius: 24, borderTopRightRadius: 24,
+    padding: spacing.xxl, maxHeight: '70%',
+    paddingBottom: spacing.xxxl * 2,
+  },
+  modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+  modalTitle: { ...typography.headlineSm, fontWeight: '800' },
+  modalSubtitle: { ...typography.bodyMd, marginBottom: spacing.lg },
+  loadingText: { ...typography.bodyMd, textAlign: 'center', paddingVertical: spacing.xxl },
+  noDrivers: { alignItems: 'center', paddingVertical: spacing.xxxl, gap: spacing.md },
+  noDriversText: { ...typography.titleMd, fontWeight: '700' },
+  noDriversSub: { ...typography.bodySm },
+  driverList: { maxHeight: 400 },
+  driverItem: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingVertical: spacing.lg, gap: spacing.md,
+    borderBottomWidth: 1,
+  },
+  driverAvatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  driverAvatarText: { ...typography.titleMd, fontWeight: '800' },
+  driverInfo: { flex: 1 },
+  driverName: { ...typography.bodyMd, fontWeight: '700' },
+  driverPhone: { ...typography.bodySm },
 });

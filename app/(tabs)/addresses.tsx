@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { MapPin, Plus, Trash2, Check, Crosshair, Navigation } from 'lucide-react-native';
-import MapView, { UrlTile, Marker } from 'react-native-maps';
+import Mapbox from '@rnmapbox/maps';
 import * as Location from 'expo-location';
-import { MAPBOX_TILE_URL } from '../../constants/map';
+import { MAPBOX_STYLE } from '../../constants/map';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -19,7 +19,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 export default function AddressesScreen() {
   const colors = useThemeStore((s) => s.colors);
   const { t } = useLanguageStore();
-  const mapRef = useRef<MapView>(null);
+  const cameraRef = useRef<Mapbox.Camera>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -34,6 +34,8 @@ export default function AddressesScreen() {
   const [savingError, setSavingError] = useState('');
   const [gettingLocation, setGettingLocation] = useState(false);
   const [showMap, setShowMap] = useState(true);
+  const [cameraCenter, setCameraCenter] = useState<[number, number]>([34.8888, -6.3690]);
+  const [cameraZoom, setCameraZoom] = useState(4);
 
   const fetchAddresses = async () => {
     try {
@@ -63,6 +65,8 @@ export default function AddressesScreen() {
       setLatitude(lat);
       setLongitude(lng);
       setShowMap(true);
+      setCameraCenter([lng, lat]);
+      setCameraZoom(16);
 
       const geocode = await Location.reverseGeocodeAsync({ latitude: lat, longitude: lng });
       if (geocode.length > 0) {
@@ -71,15 +75,6 @@ export default function AddressesScreen() {
         setCity(addr.city || addr.subregion || '');
         setState(addr.region || '');
       }
-
-      setTimeout(() => {
-        mapRef.current?.animateToRegion({
-          latitude: lat,
-          longitude: lng,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }, 500);
-      }, 300);
     } catch {
       Alert.alert(t.common.error, t.map.locationUnavailable);
     } finally {
@@ -87,10 +82,12 @@ export default function AddressesScreen() {
     }
   };
 
-  const handleMapPress = (e: any) => {
-    const { latitude: lat, longitude: lng } = e.nativeEvent.coordinate;
-    setLatitude(lat);
-    setLongitude(lng);
+  const handleMapPress = (feature: any) => {
+    const coords = feature.geometry.coordinates as [number, number];
+    setLatitude(coords[1]);
+    setLongitude(coords[0]);
+    setCameraCenter([coords[0], coords[1]]);
+    setCameraZoom(16);
   };
 
   const handleAdd = async () => {
@@ -163,22 +160,24 @@ export default function AddressesScreen() {
             </View>
             {addr.latitude && addr.longitude && (
               <View style={[styles.miniMapWrap, { borderTopColor: colors.surfaceContainerHigh }]}>
-                <MapView
+                <Mapbox.MapView
                   style={styles.miniMap}
                   scrollEnabled={false}
                   zoomEnabled={false}
                   rotateEnabled={false}
                   pitchEnabled={false}
-                  initialRegion={{
-                    latitude: addr.latitude,
-                    longitude: addr.longitude,
-                    latitudeDelta: 0.02,
-                    longitudeDelta: 0.02,
-                  }}
+                  styleURL={MAPBOX_STYLE}
                 >
-                  <UrlTile urlTemplate={MAPBOX_TILE_URL} maximumZ={19} flipY={false} tileSize={512} shouldReplaceMapContent />
-                  <Marker coordinate={{ latitude: addr.latitude, longitude: addr.longitude }} />
-                </MapView>
+                  <Mapbox.Camera
+                    defaultSettings={{ centerCoordinate: [addr.longitude, addr.latitude], zoomLevel: 14 }}
+                  />
+                  <Mapbox.PointAnnotation
+                    id={`addr-${addr.id}`}
+                    coordinate={[addr.longitude, addr.latitude]}
+                  >
+                    <View style={[styles.markerDot, { backgroundColor: colors.primary }]} />
+                  </Mapbox.PointAnnotation>
+                </Mapbox.MapView>
               </View>
             )}
           </Card>
@@ -211,32 +210,30 @@ export default function AddressesScreen() {
             ) : (
               <View style={styles.mapSection}>
                 <View style={styles.mapContainer}>
-                  <MapView
-                    ref={mapRef}
+                  <Mapbox.MapView
                     style={styles.map}
-                    initialRegion={
-                      latitude && longitude
-                        ? { latitude, longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 }
-                        : { latitude: -6.3690, longitude: 34.8888, latitudeDelta: 5, longitudeDelta: 5 }
-                    }
+                    styleURL={MAPBOX_STYLE}
                     onPress={handleMapPress}
                   >
-                    <UrlTile
-                      urlTemplate={MAPBOX_TILE_URL}
-                      maximumZ={19}
-                      flipY={false}
-                      tileSize={512}
-                      shouldReplaceMapContent
+                    <Mapbox.Camera
+                      ref={cameraRef}
+                      centerCoordinate={cameraCenter}
+                      zoomLevel={cameraZoom}
+                      animationDuration={500}
                     />
                     {latitude && longitude && (
-                      <Marker
-                        coordinate={{ latitude, longitude }}
+                      <Mapbox.PointAnnotation
+                        id="selected"
+                        coordinate={[longitude, latitude]}
                         draggable
                         onDragEnd={handleMapPress}
-                        title={t.map.dragPinToSet}
-                      />
+                      >
+                        <View style={[styles.markerPinMap, { backgroundColor: colors.primary }]}>
+                          <MapPin size={20} color={colors.onPrimary} strokeWidth={2.5} />
+                        </View>
+                      </Mapbox.PointAnnotation>
                     )}
-                  </MapView>
+                  </Mapbox.MapView>
                 </View>
                 <Text style={[styles.mapHint, { color: colors.onSurfaceVariant }]}>
                   {t.map.dragPinToSet}
@@ -300,6 +297,12 @@ const styles = StyleSheet.create({
     gap: spacing.xs, paddingVertical: spacing.sm, borderRadius: borderRadius.md,
   },
   refreshLocationText: { ...typography.bodySm, fontWeight: '600' },
+  markerDot: { width: 12, height: 12, borderRadius: 6, borderWidth: 2, borderColor: '#fff' },
+  markerPinMap: {
+    width: 36, height: 36, borderRadius: 18,
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 3,
+  },
   fab: {
     position: 'absolute', bottom: 24, right: 24,
     width: 56, height: 56, borderRadius: 16,

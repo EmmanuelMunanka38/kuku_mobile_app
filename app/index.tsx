@@ -1,13 +1,18 @@
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Redirect } from 'expo-router';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../constants/themes';
 
 export default function Index() {
-  const { user, isLoading, isOnboarded } = useAuthStore();
+  const { user, isLoading } = useAuthStore();
+  const colors = useThemeStore((s) => s.colors);
 
-  if (isLoading) return null;
-
-  if (!isOnboarded) {
-    return <Redirect href="/onboarding" />;
+  if (isLoading) {
+    return (
+      <View style={[styles.loading, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
   }
 
   if (!user) {
@@ -18,5 +23,13 @@ export default function Index() {
     return <Redirect href="/(tabs)/dashboard" />;
   }
 
+  if (user.role === 'DRIVER') {
+    return <Redirect href="/(tabs)/driver-dashboard" />;
+  }
+
   return <Redirect href="/(tabs)" />;
 }
+
+const styles = StyleSheet.create({
+  loading: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+});

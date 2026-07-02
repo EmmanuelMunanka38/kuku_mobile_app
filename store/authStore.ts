@@ -7,15 +7,13 @@ interface User {
   email: string;
   name?: string;
   phone?: string;
-  role: 'USER' | 'FARMER' | 'ADMIN';
+  role: 'USER' | 'FARMER' | 'DRIVER' | 'ADMIN';
 }
 
 interface AuthState {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  isOnboarded: boolean;
-  setOnboarded: () => void;
   login: (email: string, password: string) => Promise<void>;
   register: (data: { email: string; password: string; name?: string; phone?: string; role?: string }) => Promise<void>;
   logout: () => Promise<void>;
@@ -26,9 +24,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   isLoading: true,
-  isOnboarded: false,
-
-  setOnboarded: () => set({ isOnboarded: true }),
 
   login: async (email, password) => {
     const res = await api.post('/auth/login', { email, password });
@@ -58,8 +53,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       } else {
         set({ isLoading: false });
       }
-    } catch {
-      await SecureStore.deleteItemAsync('token');
+    } catch (err: any) {
+      if (err?.response?.status === 401) {
+        await SecureStore.deleteItemAsync('token');
+      }
       set({ isLoading: false });
     }
   },

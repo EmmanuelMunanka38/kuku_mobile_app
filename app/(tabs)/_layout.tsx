@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
-import { Home, Sprout, Package, ShoppingCart, User, LayoutDashboard, ClipboardList } from 'lucide-react-native';
+import { Home, Sprout, Package, ShoppingCart, User, LayoutDashboard, ClipboardList, Truck } from 'lucide-react-native';
 import { useThemeStore } from '../../constants/themes';
 import { typography } from '../../constants/typography';
 import { useAuthStore } from '../../store/authStore';
@@ -19,6 +19,7 @@ export default function TabsLayout() {
   const colors = useThemeStore((s) => s.colors);
 
   const isFarmer = user?.role === 'FARMER';
+  const isDriver = user?.role === 'DRIVER';
 
   const tabBarStyle = {
     backgroundColor: colors.surfaceContainerLowest,
@@ -28,6 +29,53 @@ export default function TabsLayout() {
     height: 60,
     paddingBottom: 4,
   };
+
+  if (isDriver) {
+    return (
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle,
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.outline,
+          tabBarLabelStyle: styles.tabLabel,
+        }}
+      >
+        <Tabs.Screen
+          name="driver-dashboard"
+          options={{
+            title: 'Dashboard',
+            tabBarIcon: ({ focused }) => <TabIcon icon={Truck} focused={focused} />,
+          }}
+        />
+        <Tabs.Screen
+          name="driver-deliveries"
+          options={{
+            title: 'Deliveries',
+            tabBarIcon: ({ focused }) => <TabIcon icon={Package} focused={focused} />,
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ focused }) => <TabIcon icon={User} focused={focused} />,
+          }}
+        />
+        <Tabs.Screen name="index" options={{ href: null }} />
+        <Tabs.Screen name="farms" options={{ href: null }} />
+        <Tabs.Screen name="cart" options={{ href: null }} />
+        <Tabs.Screen name="dashboard" options={{ href: null }} />
+        <Tabs.Screen name="manage-products" options={{ href: null }} />
+        <Tabs.Screen name="orders" options={{ href: null }} />
+        <Tabs.Screen name="addresses" options={{ href: null }} />
+        <Tabs.Screen name="favorites" options={{ href: null }} />
+        <Tabs.Screen name="help" options={{ href: null }} />
+        <Tabs.Screen name="settings" options={{ href: null }} />
+        <Tabs.Screen name="notifications" options={{ href: null }} />
+      </Tabs>
+    );
+  }
 
   if (isFarmer) {
     return (
@@ -71,6 +119,8 @@ export default function TabsLayout() {
         <Tabs.Screen name="index" options={{ href: null }} />
         <Tabs.Screen name="farms" options={{ href: null }} />
         <Tabs.Screen name="cart" options={{ href: null }} />
+        <Tabs.Screen name="driver-dashboard" options={{ href: null }} />
+        <Tabs.Screen name="driver-deliveries" options={{ href: null }} />
         <Tabs.Screen name="addresses" options={{ href: null }} />
         <Tabs.Screen name="favorites" options={{ href: null }} />
         <Tabs.Screen name="help" options={{ href: null }} />
@@ -127,6 +177,8 @@ export default function TabsLayout() {
       />
       <Tabs.Screen name="dashboard" options={{ href: null }} />
       <Tabs.Screen name="manage-products" options={{ href: null }} />
+      <Tabs.Screen name="driver-dashboard" options={{ href: null }} />
+      <Tabs.Screen name="driver-deliveries" options={{ href: null }} />
       <Tabs.Screen name="addresses" options={{ href: null }} />
       <Tabs.Screen name="favorites" options={{ href: null }} />
       <Tabs.Screen name="help" options={{ href: null }} />

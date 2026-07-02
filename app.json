@@ -4,11 +4,11 @@
     "slug": "agrinova",
     "version": "1.0.5",
     "orientation": "portrait",
-    "icon": "./assets/appi.png",
+    "icon": "./assets/newlogo.png",
     "userInterfaceStyle": "light",
     "scheme": "kukumart",
     "splash": {
-      "backgroundColor": "#154212",
+      "backgroundColor": "#2E7D32",
       "resizeMode": "contain"
     },
     "ios": {
@@ -17,14 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-      "backgroundColor": "#2E7D32",
-        "foregroundImage": "./assets/android-icon-foreground.png"
+        "backgroundColor": "#2E7D32",
+        "foregroundImage": "./assets/android-icon1-foreground.png"
       },
       "package": "com.kukumart.app",
       "usesCleartextTraffic": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/newlogo.png"
     },
     "plugins": [
       "expo-router",
@@ -43,10 +43,14 @@
           "locationWhenInUsePermission": "Allow AGRINOVA to use your location to set your delivery address."
         }
       ],
+      "expo-asset",
+      "@rnmapbox/maps",
       [
-        "react-native-maps",
+        "expo-build-properties",
         {
-          "androidGoogleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
+          "android": {
+            "kotlinVersion": "1.9.24"
+          }
         }
       ]
     ]

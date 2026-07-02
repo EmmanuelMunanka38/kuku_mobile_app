@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Switch, Alert } from 'react-native';
 import { router } from 'expo-router';
-import { MapPin, Star, Bell, CreditCard, HelpCircle, Settings, Home, ClipboardList, Pencil, Plus, Globe, ChevronRight, LogOut, Moon, Sun } from 'lucide-react-native';
+import { MapPin, Star, Bell, CreditCard, HelpCircle, Settings, Home, ClipboardList, Pencil, Plus, Globe, ChevronRight, LogOut, Moon, Sun, Truck, Package } from 'lucide-react-native';
 
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -16,6 +16,7 @@ export default function ProfileScreen() {
   const isDark = useThemeStore((s) => s.isDark);
   const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const isFarmer = user?.role === 'FARMER';
+  const isDriver = user?.role === 'DRIVER';
   const { t, language, setLanguage } = useLanguageStore();
 
   const handleLogout = async () => {
@@ -38,6 +39,11 @@ export default function ProfileScreen() {
     { icon: ClipboardList, label: t.farmer.manageProducts, onPress: () => router.push('/(tabs)/manage-products') },
     { icon: Pencil, label: t.farmer.editFarm, onPress: () => router.push('/(farmer)/edit-farm') },
     { icon: Plus, label: t.farmer.addProduct, onPress: () => router.push('/(farmer)/add-product') },
+  ];
+
+  const driverMenu = [
+    { icon: Truck, label: 'Dashboard', onPress: () => router.push('/(tabs)/driver-dashboard') },
+    { icon: Package, label: 'Deliveries', onPress: () => router.push('/(tabs)/driver-deliveries') },
   ];
 
   return (
@@ -63,6 +69,21 @@ export default function ProfileScreen() {
           <Text style={[styles.sectionTitle, { color: colors.onSurface }]}>{t.profile.farmManagement}</Text>
           <Card variant="elevated" padding="none">
             {farmerMenu.map((item, i) => (
+              <TouchableOpacity key={i} onPress={item.onPress} style={[styles.menuItem, { borderBottomColor: colors.surfaceContainerHigh }]}>
+                <item.icon size={20} color={colors.primary} strokeWidth={2} />
+                <Text style={[styles.menuLabel, { color: colors.onSurface }]}>{item.label}</Text>
+                <ChevronRight size={18} color={colors.outline} strokeWidth={2} />
+              </TouchableOpacity>
+            ))}
+          </Card>
+        </View>
+      )}
+
+      {isDriver && (
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.onSurface }]}>Driver</Text>
+          <Card variant="elevated" padding="none">
+            {driverMenu.map((item, i) => (
               <TouchableOpacity key={i} onPress={item.onPress} style={[styles.menuItem, { borderBottomColor: colors.surfaceContainerHigh }]}>
                 <item.icon size={20} color={colors.primary} strokeWidth={2} />
                 <Text style={[styles.menuLabel, { color: colors.onSurface }]}>{item.label}</Text>
